@@ -12,9 +12,13 @@ fi
 
 source $HOME/undercloudrc
 
+# Find the keystone unit
+KEYSTONE_UNIT=`systemctl list-unit-files --type=service | grep -i keystone | awk '{print $1}'`
+[ ! "$KEYSTONE_UNIT" ] && exit 1
+
 # Ensure keystone is up before continuing on.
 # Waits for up to 2 minutes.
-wait_for 12 10 sudo systemctl status keystone
+wait_for 12 10 sudo systemctl status $KEYSTONE_UNIT
 
 # Because keystone just still isn't up yet...
 sleep 20

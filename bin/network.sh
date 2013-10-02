@@ -16,4 +16,4 @@ sudo sed -i "s/bridge name='brbm'/bridge name='br-ctlplane'/" /opt/stack/tripleo
 sudo ip link del $PUBLIC_INTERFACE || true
 sudo ip link add $PUBLIC_INTERFACE type dummy
 
-sudo init-neutron-ovs
+sudo /usr/local/bin/init-neutron-ovs

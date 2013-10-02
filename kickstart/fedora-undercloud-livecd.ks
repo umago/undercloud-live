@@ -29,7 +29,10 @@ python-pip
 %post --nochroot
 
 cd $INSTALL_ROOT/root
-git clone https://github.com/slagle/undercloud-live
+git clone https://github.com/agroup/undercloud-live
+pushd undercloud-live
+git checkout package
+popd
 
 mkdir -p $INSTALL_ROOT/root/.cache/image-create
 
@@ -45,7 +48,7 @@ mkdir -p $INSTALL_ROOT/root/.cache/image-create
 cd $INSTALL_ROOT/root/.cache/image-create
 curl -O http://file.rdu.redhat.com/~jslagle/latest-Cloud-x86_64-latest.tgz
 curl -o fedora-latest.x86_64.qcow2 http://file.rdu.redhat.com/~jslagle/Fedora-x86_64-19-20130627-sda.qcow2
-    
+
 %end
 ##############################################################################
 
@@ -56,6 +59,8 @@ curl -o fedora-latest.x86_64.qcow2 http://file.rdu.redhat.com/~jslagle/Fedora-x8
 %post --log /opt/stack/kickstart.log --erroronfail
 
 set -ex
+
+export PATH=:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
 
 # We need to be able to resolve addresses
 echo nameserver 8.8.8.8 > /etc/resolv.conf
