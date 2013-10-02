@@ -13,7 +13,7 @@ sudo yum install -y python-pip
 # busybox is a requirement of ramdisk-image-create from diskimage-builder
 sudo yum install -y busybox
 
-# The packaged version of pbr that gets installed is 
+# The packaged version of pbr that gets installed is
 # python-pbr-0.5.19-2.fc19.noarch
 # However, the unpackaged os-*-config expect pbr>=0.5.21, so we need to still
 # use pip to update pbr for now.
@@ -25,13 +25,13 @@ sudo pip install -U pbr
 sudo mkdir -m 777 -p /opt/stack
 pushd /opt/stack
 
-git clone https://github.com/slagle/python-dib-elements.git
-git clone https://github.com/slagle/undercloud-live.git
+git clone https://github.com/agroup/python-dib-elements.git
+git clone https://github.com/agroup/undercloud-live.git
 pushd undercloud-live
 git checkout package
 popd
 
-git clone https://github.com/slagle/tripleo-incubator.git
+git clone https://github.com/agroup/tripleo-incubator.git
 pushd tripleo-incubator
 # we have to continue to use a branch here for x86_64 to work, and our other
 # undercloud changes
@@ -112,4 +112,4 @@ fi
 # Overcloud heat template
 sudo make -C /opt/stack/tripleo-heat-templates overcloud.yaml
 
-touch /opt/stack/undercloud-live/.install 
+touch /opt/stack/undercloud-live/.install

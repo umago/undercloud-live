@@ -9,7 +9,7 @@ use nested kvm (see [References](#references)).
 To get started, clone this repo to your home directory:
 
     $ cd
-    $ git clone https://github.com/slagle/undercloud-live.git
+    $ git clone https://github.com/agroup/undercloud-live.git
 
 ## bin/undercloud.sh
 This script is run as the current user to configure the current system into an
@@ -57,7 +57,7 @@ undercloud, just copy them into /opt/stack/images.
 * The git repositories that are checked out under /opt/stack are set to
   checkout specific hashes.  Some of these hashes are specified in
   bin/install.sh.  Others are specified in an undercloud-live branch
-  of a fork of tripleo-image-elements at 
+  of a fork of tripleo-image-elements at
   https://github.com/slagle/tripleo-image-elements.git.  The undercloud-live
   branch there sets specific hashes to use via the source-repository interface.
 * If you reboot the undercloud system, you will need to rerun
@@ -65,8 +65,8 @@ undercloud, just copy them into /opt/stack/images.
 * The system is configured to use the iptables service instead of the firewalld
   service.
 * SELinux is set to Permissive mode.  Otherwise, rabbitmq-server will not
-  start.  
-  See: https://bugzilla.redhat.com/show_bug.cgi?id=998682  
+  start.
+  See: https://bugzilla.redhat.com/show_bug.cgi?id=998682
   Note: we will be switching to use qpid soon
 
 ## kickstart/fedora-undercloud-livecd.ks
@@ -83,7 +83,7 @@ To test it simply run:
 
 ## Live CD
 
-The Live CD provides a full working undercloud environment.  Note that the [Caveats](#caveats) from the section above 
+The Live CD provides a full working undercloud environment.  Note that the [Caveats](#caveats) from the section above
 apply to the Live CD as well as it is built using the same installation scripts.
 
 Also keep in mind that any changes made to the filesystem while running the Live CD are lost after you reboot
@@ -102,7 +102,7 @@ later.
  * >= 25GB (the bigger the better obviously if you plan to upload/build many images)
 1. Nested KVM (if you plan to use a vm for the Live CD itself)
  * setup up Nested KVM (see [References](#references)  below)
- * if you don't want to use Nested KVM, make sure you switch all your vm's to use just 
+ * if you don't want to use Nested KVM, make sure you switch all your vm's to use just
    qemu virtualization in their libvirt xml.
 
 ### Running/Installing
@@ -110,9 +110,9 @@ To use the live cd, follow the steps below.
 
 1. Boot the live cd.
  * The default account is liveuser.  However, you can use stack/stack for ssh access, etc.
- * If you plan to install to disk, do so after the boot is finished. Use the icon on the desktop, or ssh in with 
+ * If you plan to install to disk, do so after the boot is finished. Use the icon on the desktop, or ssh in with
    X forwarding and run /sbin/liveinst.
- * Once the install has finished, reboot and continue on with the next step. After rebooting, you 
+ * Once the install has finished, reboot and continue on with the next step. After rebooting, you
    will need to use stack/stack to login as liveuser no longer exists.
 1. Open a terminal and switch to the stack user (if you aren't already):
 
