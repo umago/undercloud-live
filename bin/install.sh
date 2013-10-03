@@ -79,6 +79,7 @@ sudo sed -i "s/Defaults    requiretty/# Defaults    requiretty/" /etc/sudoers
 sudo sed -i "s/Defaults    secure_path/# Defaults    secure_path/" /etc/sudoers
 
 # need to move this somewhere in heat package or puppet module
+mkdir -p /var/log/heat
 touch /var/log/heat/engine.log
 
 dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
