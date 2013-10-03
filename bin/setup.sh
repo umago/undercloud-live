@@ -10,6 +10,7 @@ if [ -f /opt/stack/undercloud-live/.setup ]; then
     exit
 fi
 
+sudo cp /root/stackrc $HOME/undercloudrc
 source $HOME/undercloudrc
 
 # Find the keystone unit
