@@ -45,7 +45,7 @@ popd
 
 git clone https://github.com/agroup/tripleo-puppet-elements
 pushd tripleo-puppet-elements
-git checkout puppet_dev
+git checkout puppet_dev_live
 popd
 
 git clone https://github.com/openstack/tripleo-heat-templates.git
