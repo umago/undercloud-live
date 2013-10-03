@@ -78,6 +78,9 @@ sudo sed -i "s/Defaults    requiretty/# Defaults    requiretty/" /etc/sudoers
 # need to be able to pass in a modified $PATH for sudo for dib-elements to work
 sudo sed -i "s/Defaults    secure_path/# Defaults    secure_path/" /etc/sudoers
 
+# need to move this somewhere in heat package or puppet module
+touch /var/log/heat/engine.log
+
 dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
     -e fedora openstack-m-repo \
     -k pre-install \
