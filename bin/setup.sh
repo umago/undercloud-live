@@ -25,9 +25,6 @@ source /etc/profile.d/tripleo-incubator-scripts.sh
 
 export UNDERCLOUD_IP=192.0.2.1
 
-# /opt/stack/tripleo-incubator/scripts/setup-passwords -o
-# source tripleo-passwords
-
 sudo bash -c "cat /home/$USER/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys"
 
 init-keystone -p unset unset \
