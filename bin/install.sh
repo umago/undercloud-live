@@ -28,12 +28,12 @@ sudo mkdir -m 777 -p /opt/stack
 pushd /opt/stack
 
 git clone https://github.com/agroup/python-dib-elements.git
-git clone https://github.com/slagle/undercloud-live.git
+git clone https://github.com/agroup/undercloud-live.git
 pushd undercloud-live
 git checkout latest
 popd
 
-git clone https://github.com/slagle/tripleo-incubator.git
+git clone https://github.com/openstack/tripleo-incubator.git
 # pushd tripleo-incubator
 # we have to continue to use a branch here for x86_64 to work, and our other
 # undercloud changes
