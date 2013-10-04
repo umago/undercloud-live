@@ -31,12 +31,7 @@ pushd undercloud-live
 git checkout package_stable
 popd
 
-git clone https://github.com/agroup/tripleo-incubator.git
-pushd tripleo-incubator
-# we have to continue to use a branch here for x86_64 to work, and our other
-# undercloud changes
-git checkout undercloud-live
-popd
+git clone https://github.com/openstack/tripleo-incubator.git
 
 git clone https://github.com/openstack/diskimage-builder.git
 pushd diskimage-builder
