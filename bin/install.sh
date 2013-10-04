@@ -31,12 +31,7 @@ pushd undercloud-live
 git checkout package
 popd
 
-git clone https://github.com/agroup/tripleo-incubator.git
-pushd tripleo-incubator
-# we have to continue to use a branch here for x86_64 to work, and our other
-# undercloud changes
-git checkout undercloud-live
-popd
+git clone https://github.com/openstack/tripleo-incubator.git
 
 git clone https://github.com/openstack/diskimage-builder.git
 pushd diskimage-builder
@@ -49,20 +44,9 @@ git checkout puppet_dev
 popd
 
 git clone https://github.com/openstack/tripleo-heat-templates.git
-pushd tripleo-heat-templates
-git checkout c34e381a46ea6808256abb3300760cb422192869
-popd
-
-git clone https://github.com/tripleo/bm_poseur
-pushd bm_poseur
-git checkout 13c65747f50bda0cec4e90cc37aed6679a70da95
-popd
 
 sudo pip install -e python-dib-elements
 sudo pip install -e diskimage-builder
-
-# Add a symlink for bm_poseur as it has no setup.py
-sudo ln -s /opt/stack/bm_poseur/bm_poseur /usr/local/bin/bm_poseur
 
 # Add scripts directory from tripleo-incubator and diskimage-builder to the
 # path.
@@ -82,9 +66,12 @@ sudo sed -i "s/Defaults    secure_path/# Defaults    secure_path/" /etc/sudoers
 mkdir -p /var/log/heat
 touch /var/log/heat/engine.log
 
-dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
-    -e fedora openstack-m-repo \
-    -k pre-install \
+# This blacklists the script that removes grub2.  Obviously, we don't want to
+# do that in this scenario.
+dib-elements -p diskimage-builder/elements/ tripleo-image-elements/elements/ \
+    -e fedora \
+    -k extra-data pre-install \
+    -b 15-fedora-remove-grub \
     -i
 dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
     -e source-repositories boot-stack nova-baremetal \
@@ -116,4 +103,34 @@ fi
 # Overcloud heat template
 sudo make -C /opt/stack/tripleo-heat-templates overcloud.yaml
 
-touch /opt/stack/undercloud-live/.install
+source /opt/stack/undercloud-live/bin/custom-network.sh
+
+# This is the "fake" interface needed for init-neutron-ovs
+PUBLIC_INTERFACE=${PUBLIC_INTERFACE:-ucl0}
+
+# These variables are meant to be overridden if they need to be changed.
+# If you're testing on a vm that is running on a host with the default
+# 192.168.122.1 network already defined, you will want to set environment
+# variables to override these.
+NETWORK=${NETWORK:-192.168.122.1}
+LIBVIRT_IP_ADDRESS=${LIBVIRT_IP_ADDRESS:-192.168.122.1}
+LIBVIRT_NETWORK_RANGE_START=${LIBVIRT_NETWORK_RANGE_START:-192.168.122.2}
+LIBVIRT_NETWORK_RANGE_END=${LIBVIRT_NETWORK_RANGE_END:-192.168.122.254}
+
+sudo sed -i "s/192.168.122.1/$LIBVIRT_IP_ADDRESS/g" /etc/libvirt/qemu/networks/default.xml
+sudo sed -i "s/192.168.122.2/$LIBVIRT_NETWORK_RANGE_START/g" /etc/libvirt/qemu/networks/default.xml
+sudo sed -i "s/192.168.122.254/$LIBVIRT_NETWORK_RANGE_END/g" /etc/libvirt/qemu/networks/default.xml
+
+# Modify config.json as necessary
+sudo sed -i "s/192.168.122.1/$NETWORK/g" /var/lib/heat-cfntools/cfn-init-data
+sudo sed -i "s/\"user\": \"stack\",/\"user\": \"$USER\",/" /var/lib/heat-cfntools/cfn-init-data
+sudo sed -i "s/eth1/$PUBLIC_INTERFACE/g" /var/lib/heat-cfntools/cfn-init-data
+
+sudo sed -i "s/192.168.122.1/$NETWORK/g" /opt/stack/os-config-applier/templates/var/opt/undercloud-live/masquerade
+
+# Need to get a patch upstream for this, but for now, just fix it locally
+# Run os-config-applier earlier in the os-refresh-config configure.d phase
+sudo mv /opt/stack/os-config-refresh/configure.d/50-os-config-applier \
+        /opt/stack/os-config-refresh/configure.d/40-os-config-applier
+
+touch /opt/stack/undercloud-live/.install 
