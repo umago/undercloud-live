@@ -28,7 +28,7 @@ pushd /opt/stack
 git clone https://github.com/agroup/python-dib-elements.git
 git clone https://github.com/agroup/undercloud-live.git
 pushd undercloud-live
-git checkout package
+git checkout package_stable
 popd
 
 git clone https://github.com/agroup/tripleo-incubator.git
@@ -45,7 +45,7 @@ popd
 
 git clone https://github.com/agroup/tripleo-puppet-elements
 pushd tripleo-puppet-elements
-git checkout puppet_dev
+git checkout puppet_dev_livecd_stable
 popd
 
 git clone https://github.com/openstack/tripleo-heat-templates.git
