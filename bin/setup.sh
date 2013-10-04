@@ -10,6 +10,7 @@ if [ -f /opt/stack/undercloud-live/.setup ]; then
     exit
 fi
 
+sudo cp /root/stackrc $HOME/undercloudrc
 source $HOME/undercloudrc
 
 # Ensure keystone is up before continuing on.
@@ -23,7 +24,18 @@ sleep 20
 source /etc/profile.d/tripleo-incubator-scripts.sh
 
 export UNDERCLOUD_IP=192.0.2.1
-SERVICE_TOKEN=unset /opt/stack/tripleo-incubator/scripts/setup-endpoints $UNDERCLOUD_IP
+
+sudo bash -c "cat /home/$USER/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys"
+
+init-keystone -p unset unset \
+    $UNDERCLOUD_IP admin@example.com root@$UNDERCLOUD_IP
+
+setup-endpoints $UNDERCLOUD_IP --glance-password unset \
+    --heat-password unset \
+    --neutron-password unset \
+    --nova-password unset
+
+keystone role-create --name heat_stack_user
 
 # Adds default ssh key to nova
 /opt/stack/tripleo-incubator/scripts/user-config
@@ -35,6 +47,8 @@ cat /opt/stack/boot-stack/virtual-power-key.pub >> ~/.ssh/authorized_keys
 # Baremetal setup
 # Doing this as root b/c when this script is called from systemd, the access
 # to the libvirtd socket is restricted.
-sudo -i /opt/stack/tripleo-incubator/scripts/create-nodes 1 2048 10 2
+sudo -i /opt/stack/tripleo-incubator/scripts/create-nodes 1 2048 20 amd64 2
+
+cat /opt/stack/boot-stack/virtual-power-key.pub >> /home/$USER/.ssh/authorized_keys
 
 sudo touch /opt/stack/undercloud-live/.setup
