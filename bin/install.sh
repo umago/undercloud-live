@@ -34,11 +34,6 @@ git checkout latest
 popd
 
 git clone https://github.com/openstack/tripleo-incubator.git
-# pushd tripleo-incubator
-# we have to continue to use a branch here for x86_64 to work, and our other
-# undercloud changes
-# git checkout undercloud-live
-# popd
 
 git clone https://github.com/openstack/diskimage-builder.git
 git clone https://github.com/openstack/tripleo-image-elements.git
