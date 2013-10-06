@@ -68,7 +68,7 @@ touch /var/log/heat/engine.log
 
 # This blacklists the script that removes grub2.  Obviously, we don't want to
 # do that in this scenario.
-dib-elements -p diskimage-builder/elements/ tripleo-image-elements/elements/ \
+dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
     -e fedora \
     -k extra-data pre-install \
     -b 15-fedora-remove-grub \
