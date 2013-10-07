@@ -40,7 +40,13 @@ popd
 
 git clone https://github.com/agroup/tripleo-puppet-elements
 pushd tripleo-puppet-elements
-git checkout puppet_dev
+#git checkout puppet_dev
+# FIXME(lucasagomes): Seems that after we moved to install the openestack
+# services using the the packstack packaged puppet modules the build will
+# fail with a: "Error creating Live CD : fsck after resize returned an
+# error" error, maybe there's some zombie process running in the chroot
+# and it prevents the rootfs from being umounted
+git checkout d4f8457dbe8ba3124b15b877819a9a2d9725091a
 popd
 
 git clone https://github.com/openstack/tripleo-heat-templates.git
