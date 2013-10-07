@@ -29,7 +29,7 @@ python-pip
 %post --nochroot
 
 cd $INSTALL_ROOT/root
-git clone https://github.com/agroup/undercloud-live
+git clone https://github.com/umago/undercloud-live
 pushd undercloud-live
 git checkout package
 popd

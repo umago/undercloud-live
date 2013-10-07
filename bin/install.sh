@@ -25,8 +25,8 @@ sudo pip install -U pbr
 sudo mkdir -m 777 -p /opt/stack
 pushd /opt/stack
 
-git clone https://github.com/agroup/python-dib-elements.git
-git clone https://github.com/agroup/undercloud-live.git
+git clone https://github.com/umago/python-dib-elements.git
+git clone https://github.com/umago/undercloud-live.git
 pushd undercloud-live
 git checkout package
 popd
@@ -133,4 +133,4 @@ sudo sed -i "s/192.168.122.1/$NETWORK/g" /opt/stack/os-config-applier/templates/
 sudo mv /opt/stack/os-config-refresh/configure.d/50-os-config-applier \
         /opt/stack/os-config-refresh/configure.d/40-os-config-applier
 
-touch /opt/stack/undercloud-live/.install 
+touch /opt/stack/undercloud-live/.install
