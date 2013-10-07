@@ -37,6 +37,12 @@ if [ ! -f /root/.ssh/authorized_keys ]; then
 fi
 sudo bash -c "cat /home/$USER/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys"
 
+# Workaround for init-keystone
+if [ ! -f /opt/stack/venvs/keystone/bin/keystone-manage ]; then
+    sudo mkdir -p /opt/stack/venvs/keystone/bin/
+    sudo ln -s $(which keystone-manage) /opt/stack/venvs/keystone/bin/keystone-manage
+fi
+
 init-keystone -p unset unset \
     $UNDERCLOUD_IP admin@example.com root@$UNDERCLOUD_IP
 
