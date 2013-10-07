@@ -29,6 +29,12 @@ source /etc/profile.d/tripleo-incubator-scripts.sh
 
 export UNDERCLOUD_IP=192.0.2.1
 
+if [ ! -f /root/.ssh/authorized_keys ]; then
+    sudo mkdir -p /root/.ssh
+    sudo chmod 7000 /root/.ssh/
+    sudo touch /root/.ssh/authorized_keys
+    sudo chmod 600 /root/.ssh/authorized_keys
+fi
 sudo bash -c "cat /home/$USER/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys"
 
 init-keystone -p unset unset \
