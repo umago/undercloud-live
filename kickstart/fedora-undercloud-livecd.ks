@@ -45,9 +45,11 @@ mkdir -p $INSTALL_ROOT/root/.cache/image-create
 
 # Add cached Fedora Cloud images.
 # TODO: need to come from more permanent location
-cd $INSTALL_ROOT/root/.cache/image-create
-curl -O http://file.rdu.redhat.com/~jslagle/latest-Cloud-x86_64-latest.tgz
-curl -o fedora-latest.x86_64.qcow2 http://file.rdu.redhat.com/~jslagle/Fedora-x86_64-19-20130627-sda.qcow2
+#cd $INSTALL_ROOT/root/.cache/image-create
+#curl -O http://file.rdu.redhat.com/~jslagle/latest-Cloud-x86_64-latest.tgz
+#curl -o fedora-latest.x86_64.qcow2 http://file.rdu.redhat.com/~jslagle/Fedora-x86_64-19-20130627-sda.qcow2
+cp /home/lucasagomes/Downloads/latest-Cloud-x86_64-latest.tgz $INSTALL_ROOT/root/.cache/image-create/
+cp /home/lucasagomes/Downloads/Fedora-x86_64-19-20130627-sda.qcow2 $INSTALL_ROOT/root/.cache/image-create/fedora-latest.x86_64.qcow2
 
 %end
 ##############################################################################
